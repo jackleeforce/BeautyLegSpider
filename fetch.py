@@ -9,6 +9,14 @@ import pprint
 import time
 from random import randint
 
+#set proxy
+#如果不需要代理，请注释掉这部分代码
+urllib2.install_opener(
+    urllib2.build_opener(
+        urllib2.ProxyHandler({'http': 'proxy.yourDomain.com:8080'})
+    )
+)
+
 headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.125 Safari/537.36'}
 
 #data source
@@ -44,6 +52,8 @@ def load_data(data_path):
 
 #basic module
 def wget(url, proxy=None):
+
+    
     req = urllib2.Request(url, headers= headers)
     f = urllib2.urlopen(req)
     return f.read()
@@ -205,7 +215,7 @@ def fetchImg(star_data, target):
             print '{0:-^39}'.format('Fetch ' + single['dir'] + '/' + fname );
             if not os.path.exists(sub_dir+fname):
                 alexDown(url, sub_dir + fname)
-                randomSleep = randint(1, 5)
+                randomSleep = randint(2, 8)
                 time.sleep(randomSleep)
 
             if  os.path.exists(sub_dir+fname):
@@ -232,3 +242,4 @@ def fetchImg(star_data, target):
 
 
 fetchImg(star_rule, down_dir)
+
